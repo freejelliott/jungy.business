@@ -1,0 +1,14 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #ECEFF1;
+  color: rgba(0,0,0,0.87);
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* img { margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); } */
+
+canvas {
+  display: block;
+}
