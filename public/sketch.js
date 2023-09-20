@@ -91,9 +91,10 @@ function draw() {
   let c;
   if (dist(mouseX, mouseY, bigBusinessPos.x, bigBusinessPos.y) < r) {
     rotateSpeed = millis() / 300.0;
+    push();
     colorMode(HSB, 100);
     c = color(50+50*sin(millis()/300.0), 75, 100);
-    colorMode(RGB, 100);
+    pop();
   }
 
   push();
