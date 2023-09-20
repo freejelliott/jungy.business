@@ -3,13 +3,9 @@ let bigBusinessImg;
 let maximusImg;
 let thinkingImg;
 
-let bigBusinessPos;
 let cursor;
+let bigBusiness;
 let businesses;
-let x;
-let y;
-let xdir;
-let ydir;
 let maxBusiness = 500;
 
 class Cursor {
@@ -56,6 +52,64 @@ class BouncingImage {
   }
 }
 
+class BigBusinessStar {
+  constructor(image) {
+    this.x = windowWidth-bigBusinessImg.width-100;
+    this.y = windowHeight-bigBusinessImg.height-100;
+    this.image = image;
+    this.r = 1.2*max(image.width, image.height)
+  }
+
+  draw() {
+    fill('gold');
+    strokeWeight(5);
+    let rotateSpeed = millis() / 2000.0;
+    let c;
+    if (dist(mouseX, mouseY, this.x, this.y) < this.r) {
+      rotateSpeed = millis() / 300.0;
+      push();
+      colorMode(HSB, 100);
+      c = color(50+50*sin(millis()/300.0), 75, 100);
+      pop();
+    }
+
+    push();
+    translate(this.x, this.y);
+    rotate(rotateSpeed);
+    this.drawStar(0, 0, this.r, this.r/2, 9);
+    pop();
+
+    push();
+    if (typeof c !== 'undefined') {
+      tint(c);
+    }
+    image(this.image, this.x, this.y-16);
+    noTint();
+    pop();
+  }
+
+  // https://p5js.org/examples/form-star.html
+  drawStar(x, y, radius1, radius2, npoints) {
+    let angle = TWO_PI / npoints;
+    let halfAngle = angle / 2.0;
+    beginShape();
+    for (let a = 0; a < TWO_PI; a += angle) {
+      let sx = x + cos(a) * radius2;
+      let sy = y + sin(a) * radius2;
+      vertex(sx, sy);
+      sx = x + cos(a + halfAngle) * radius1;
+      sy = y + sin(a + halfAngle) * radius1;
+      vertex(sx, sy);
+    }
+    endShape(CLOSE);
+  }
+
+  windowResized() {
+    this.x = windowWidth-bigBusinessImg.width-100;
+    this.y = windowHeight-bigBusinessImg.height-100;
+  }
+}
+
 function preload() {
   businessImg = loadImage('business.png');
   // maximusImg = loadImage('maximus.webp');
@@ -64,17 +118,13 @@ function preload() {
 }
 
 function setup() {
-  bigBusinessPos = createVector(windowWidth-bigBusinessImg.width-100, windowHeight-bigBusinessImg.height-100);
   imageMode(CENTER);
   noCursor();
   cursor = new Cursor(businessImg);
   createCanvas(windowWidth, windowHeight);
   businesses = [];
-  x = windowWidth / 2;
-  y = windowHeight / 2;
-  xdir = random(-1, 1);
-  ydir = random(-1, 1);
-  businesses.push(new BouncingImage(businessImg, x, y, xdir, ydir));
+  businesses.push(new BouncingImage(businessImg, windowWidth / 2, windowHeight / 2, random(-1, 1), random(-1, 1)));
+  bigBusiness = new BigBusinessStar(bigBusinessImg);
 }
 
 function draw() {
@@ -84,38 +134,13 @@ function draw() {
   }
 
   // Big Business
-  fill('gold');
-  strokeWeight(5);
-  r = 1.2*max(bigBusinessImg.width, bigBusinessImg.height);
-  let rotateSpeed = millis() / 2000.0;
-  let c;
-  if (dist(mouseX, mouseY, bigBusinessPos.x, bigBusinessPos.y) < r) {
-    rotateSpeed = millis() / 300.0;
-    push();
-    colorMode(HSB, 100);
-    c = color(50+50*sin(millis()/300.0), 75, 100);
-    pop();
-  }
-
-  push();
-  translate(bigBusinessPos.x, bigBusinessPos.y);
-  rotate(rotateSpeed);
-  star(0, 0, r, r/2, 9);
-  pop();
-
-  push();
-  if (typeof c !== 'undefined') {
-    tint(c);
-  }
-  image(bigBusinessImg, bigBusinessPos.x, bigBusinessPos.y-16);
-  noTint();
-  pop();
+  bigBusiness.draw();
 
   cursor.draw();
 }
 
 function mouseClicked() {
-  if (dist(mouseX, mouseY, bigBusinessPos.x, bigBusinessPos.y) < r) {
+  if (dist(mouseX, mouseY, bigBusiness.x, bigBusiness.y) < bigBusiness.r) {
     window.open("https://medal.tv/games/valorant/clips/1iHiUG3zgwlZGy/YuGPGjsCxEHi?invite=cr-MSxUcDUsNjQxODAwMTUs");
   }
 
@@ -132,20 +157,4 @@ function windowResized() {
   for (let i = 0; i < businesses.length; i++) {
     businesses[i].windowResized();
   }
-}
-
-// https://p5js.org/examples/form-star.html
-function star(x, y, radius1, radius2, npoints) {
-  let angle = TWO_PI / npoints;
-  let halfAngle = angle / 2.0;
-  beginShape();
-  for (let a = 0; a < TWO_PI; a += angle) {
-    let sx = x + cos(a) * radius2;
-    let sy = y + sin(a) * radius2;
-    vertex(sx, sy);
-    sx = x + cos(a + halfAngle) * radius1;
-    sy = y + sin(a + halfAngle) * radius1;
-    vertex(sx, sy);
-  }
-  endShape(CLOSE);
 }
