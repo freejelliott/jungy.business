@@ -157,4 +157,5 @@ function windowResized() {
   for (let i = 0; i < businesses.length; i++) {
     businesses[i].windowResized();
   }
+  bigBusiness.windowResized();
 }
