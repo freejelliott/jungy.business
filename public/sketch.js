@@ -144,9 +144,9 @@ function pickRandomClip() {
            'https://www.youtube.com/watch?v=MVk1_zt7oBw',
   ]
   const randomIndex = Math.round(Math.random() * (clips.length - 1))  
-  return clips[randomIndex]
+  return clips[randomIndex];
+}
   
-
 function mouseClicked() {
   if (dist(mouseX, mouseY, bigBusiness.x, bigBusiness.y) < bigBusiness.r) {
     const clip = pickRandomClip()
