@@ -143,7 +143,7 @@ function pickRandomClip() {
   clips = ['https://medal.tv/games/valorant/clips/1iHiUG3zgwlZGy/YuGPGjsCxEHi',
            'https://www.youtube.com/watch?v=MVk1_zt7oBw',
   ]
-  const randomIndex = Math.round(Math.random(clips.length))
+  const randomIndex = Math.round(Math.random() * (clips.length - 1))  
   return clips[randomIndex]
   
 
