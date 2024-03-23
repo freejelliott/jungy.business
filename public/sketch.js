@@ -139,9 +139,18 @@ function draw() {
   cursor.draw();
 }
 
+function pickRandomClip() {
+  clips = ['https://medal.tv/games/valorant/clips/1iHiUG3zgwlZGy/YuGPGjsCxEHi',
+           'https://www.youtube.com/watch?v=MVk1_zt7oBw',
+  ]
+  const randomIndex = Math.round(Math.random(clips.length))
+  return clips[randomIndex]
+  
+
 function mouseClicked() {
   if (dist(mouseX, mouseY, bigBusiness.x, bigBusiness.y) < bigBusiness.r) {
-    window.open("https://medal.tv/games/valorant/clips/1iHiUG3zgwlZGy/YuGPGjsCxEHi?invite=cr-MSxUcDUsNjQxODAwMTUs");
+    const clip = pickRandomClip()
+    window.open(clip);
   }
 
   if (businesses.length >= maxBusiness) {
